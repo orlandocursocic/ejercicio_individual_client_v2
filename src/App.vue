@@ -1,25 +1,47 @@
 <template>
   <div id="app">
-    <h1><strong>{{ title }}</strong></h1>
-    <maestro-entrada></maestro-entrada>
-    <detalle-entrada></detalle-entrada>
+    <master-chooser></master-chooser>
+    <h1 v-show="opcion == 'entradas'"><strong>{{ title.Entradas }}</strong></h1>
+    <maestro-entrada v-show="opcion == 'entradas'"></maestro-entrada>
+    <detalle-entrada v-show="opcion == 'entradas'"></detalle-entrada>
+    <h1 v-show="opcion == 'peliculas'"><strong>{{ title.Peliculas }}</strong></h1>
+    <maestro-pelicula v-show="opcion == 'peliculas'"></maestro-pelicula>
+    <detalle-pelicula v-show="opcion == 'peliculas'"></detalle-pelicula>
+
   </div>
 </template>
 
 <script>
-import MaestroEntrada from './Maestro-Entrada.vue'
-import DetalleEntrada from './Detalle-Entrada.vue'
+import EventBus from './components/event-bus.js'
+import Chooser from './components/Chooser.vue'
+import MaestroEntrada from './components/Maestro-Entrada.vue'
+import DetalleEntrada from './components/Detalle-Entrada.vue'
+import MaestroPelicula from './components/Maestro-Pelicula.vue'
+import DetallePelicula from './components/Detalle-Pelicula.vue'
 
 export default {
       components: {
+          'master-chooser' : Chooser,
           'maestro-entrada' : MaestroEntrada,
-          'detalle-entrada' : DetalleEntrada
+          'detalle-entrada' : DetalleEntrada,
+          'maestro-pelicula' : MaestroPelicula,
+          'detalle-pelicula' : DetallePelicula
       },
 
       data: function() {
         return {
-          title: 'Maestro-Detalle de Entrada',
+          title: {
+            Entradas: 'Maestro-Detalle de Entrada',
+            Peliculas: 'Maestro-Detalle de Película'
+          },
+          opcion: 'entradas'
         }
+      },
+
+      mounted: function(){
+        EventBus.$on('chooseOption', function(opcion) {
+          this.opcion = opcion;
+        }.bind(this));
       }
 }
 </script>
