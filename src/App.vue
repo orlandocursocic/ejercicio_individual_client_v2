@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <master-chooser></master-chooser>
-    <h1 v-show="opcion == 'entradas'"><strong>{{ title.Entradas }}</strong></h1>
+    <h2 v-show="opcion == 'entradas'"><strong>{{ title.Entradas }}</strong></h2>
     <maestro-entrada v-show="opcion == 'entradas'"></maestro-entrada>
     <detalle-entrada v-show="opcion == 'entradas'"></detalle-entrada>
-    <h1 v-show="opcion == 'peliculas'"><strong>{{ title.Peliculas }}</strong></h1>
+    <h2 v-show="opcion == 'peliculas'"><strong>{{ title.Peliculas }}</strong></h2>
     <maestro-pelicula v-show="opcion == 'peliculas'"></maestro-pelicula>
     <detalle-pelicula v-show="opcion == 'peliculas'"></detalle-pelicula>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="w3-container w3-card-4" style="display:inline-block; vertical-align:top">
     <div>
-      <h2><strong>Película: </strong>{{Pelicula.Titulo}}</h2>
+      <h3><strong>Película: </strong>{{Pelicula.Titulo}}</h3>
       <label class="w3-text" for="titulo"> Título </label>
       <input class="w3-input w3-border" type="string" name="titulo" value="Titulo" :disabled="!editing && !addingNew" v-model="Pelicula.Titulo">
       <label class="w3-text" for="anyo"> Año </label>
