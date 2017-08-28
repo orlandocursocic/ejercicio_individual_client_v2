@@ -1,0 +1,229 @@
+<template>
+  <div class="w3-container w3-card-4" style="display:inline-block; vertical-align:top">
+    <div>
+      <h2><strong>Entrada, precio: </strong>{{Entrada.Precio}}</h2>
+      <label class="w3-text" for="precio"> Precio </label>
+      <input class="w3-input w3-border" type="numeric" name="precio" value="Precio" :disabled="!editing && !addingNew" v-model="Entrada.Precio">
+      <label class="w3-text" for="sala"> Sala </label>
+      <input class="w3-input w3-border" type="numeric" name="sala" value="Sala" :disabled="!editing && !addingNew" v-model="Entrada.Sala">
+      <label class="w3-text" for="butaca"> Butaca </label>
+      <input class="w3-input w3-border" type="numeric" name="butaca" value="Butaca" :disabled="!editing && !addingNew" v-model="Entrada.Butaca">
+      <label class="w3-text" for="fila"> Fila </label>
+      <input class="w3-input w3-border" type="numeric" name="fila" value="Fila" :disabled="!editing && !addingNew" v-model="Entrada.Fila">
+    </div>
+
+    <br>
+
+    <div>
+    <template v-if="!addingNew">
+      <div style="float: left">
+        <button type="button" class="btn btn-default btn-sm" title="Nuevo" @click="editNew" :disabled="editing">
+            <app-icon img="plus"></app-icon>
+        </button>
+      </div>
+    </template>
+
+    <template v-else>
+        <div style="float: left">
+            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="create">
+                <app-icon img="ok"></app-icon>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" title="Descartar" @click="discardNew">
+                <app-icon img="remove"></app-icon>
+            </button>
+        </div>
+    </template>
+
+    <template v-if="!editing">
+        <div style="float: right">
+            <button type="button" class="btn btn-default btn-sm" title="Editar" @click="edit" :disabled="addingNew">
+                <app-icon img="edit"></app-icon>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" title="Eliminar" @click="remove" :disabled="addingNew">
+                <app-icon img="trash"></app-icon>
+            </button>
+        </div>
+    </template>
+
+    <template v-else>
+        <div style="float: right">
+            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="update()">
+                <app-icon img="ok"></app-icon>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" title="Descartar" @click="discard">
+                <app-icon img="remove"></app-icon>
+            </button>
+        </div>
+    </template>
+  </div>
+  <div>
+    <p style="visibility: hidden">separador</p>
+  </div>
+    <br>
+
+  </div>
+</template>
+
+<script>
+import EventBus from './event-bus.js'
+import AppIcon from './App-icon.vue'
+import appConfig from './config.js'
+
+var httpURL = appConfig.URLEntrada;
+
+export default {
+      components: {
+          'app-icon' : AppIcon
+      },
+
+      methods: {
+            editNew: function () {
+                this.EntradaCopia.Precio = this.Entrada.Precio;
+                this.EntradaCopia.Sala = this.Entrada.Sala;
+                this.EntradaCopia.Butaca = this.Entrada.Butaca;
+                this.EntradaCopia.Fila = this.Entrada.Fila;
+
+                this.Entrada.Precio = '';
+                this.Entrada.Sala = '';
+                this.Entrada.Butaca = '';
+                this.Entrada.Fila = '';
+                this.addingNew = true;
+             },
+             discardNew: function () {
+               this.Entrada.Precio = this.EntradaCopia.Precio;
+               this.Entrada.Sala = this.EntradaCopia.Sala;
+               this.Entrada.Butaca = this.EntradaCopia.Butaca;
+               this.Entrada.Fila = this.EntradaCopia.Fila;
+               this.addingNew = false;
+             },
+              edit: function () {
+                this.EntradaCopia.Precio = this.Entrada.Precio;
+                this.EntradaCopia.Sala = this.Entrada.Sala;
+                this.EntradaCopia.Butaca = this.Entrada.Butaca;
+                this.EntradaCopia.Fila = this.Entrada.Fila;
+                this.editing = true;
+               },
+              discard: function () {
+                this.Entrada.Precio = this.EntradaCopia.Precio;
+                this.Entrada.Sala = this.EntradaCopia.Sala;
+                this.Entrada.Butaca = this.EntradaCopia.Butaca;
+                this.Entrada.Fila = this.EntradaCopia.Fila;
+                this.editing = false;
+              },
+              cleanForm: function() {
+                this.Entrada.Precio = '';
+                this.Entrada.Sala = '';
+                this.Entrada.Butaca = '';
+                this.Entrada.Fila = '';
+                this.Entrada.Id = '';
+              },
+              create: function () {
+                var _this = this;
+                  $.ajax(
+                    {
+                      url : httpURL,
+                      type: "POST",
+                      data: {
+                        Precio: this.Entrada.Precio,
+                        Sala: this.Entrada.Sala,
+                        Butaca: this.Entrada.Butaca,
+                        Fila: this.Entrada.Fila,
+                      }
+
+                    })
+                    .done(function(data) {
+                      alert('Entrada añadida con éxito.');
+                      EventBus.$emit('updateListEntrada');
+                    })
+                    .fail(function(data) {
+                            alert( "error" );
+                          });
+                  this.addingNew = false;
+              },
+              update: function () {
+                var _this = this;
+                $.ajax(
+                  {
+                    url : httpURL + this.Entrada.Id,
+                    type: "PUT",
+                    data: {
+                      Id: this.Entrada.Id,
+                      Precio: this.Entrada.Precio,
+                      Sala: this.Entrada.Sala,
+                      Butaca: this.Entrada.Butaca,
+                      Fila: this.Entrada.Fila
+                    }
+                  })
+                  .done(function(data) {
+                    alert('Entrada actualizada con éxito.');
+                    EventBus.$emit('updateListEntrada');
+                    _this.cleanForm();
+                  })
+                  .fail(function(data) {
+                          alert( "error" );
+                        });
+                this.editing = false;
+              },
+              remove: function () {
+                  var _this = this;
+                  $.ajax(
+                    {
+                      url : httpURL + this.Entrada.Id,
+                      type: "DELETE",
+                      data: {Id: this.Entrada.Id}
+                    })
+                    .done(function(data) {
+                      alert('Entrada eliminada con éxito.');
+                      EventBus.$emit('updateListEntrada');
+                      _this.cleanForm();
+                    })
+                    .fail(function(data) {
+                            alert( "error" );
+                          });
+                  this.editing = false;
+              },
+              load: function(id){
+                var _this = this;
+                $.ajax(
+                  {
+                    url : httpURL + id,
+                    type: "GET",
+                  })
+                  .done(function(data) {
+                    _this.Entrada = data;
+                  })
+                  .fail(function(data) {
+                          alert( "error" );
+                        });
+              },
+            },
+
+      data: function () {
+        return {
+          editing: false,
+          addingNew: false,
+          Entrada: {
+            Id: '',
+            Precio: '',
+            Sala: '',
+            Butaca: '',
+            Fila: ''
+          },
+          EntradaCopia: {
+            Id: '',
+            Precio: '',
+            Sala: '',
+            Butaca: '',
+            Fila: ''
+          }
+        }
+      },
+
+      mounted: function() {
+        EventBus.$on('entradaSelected', function(id) {
+          this.load(id);
+        }.bind(this));
+      }
+  }
+
+</script>
