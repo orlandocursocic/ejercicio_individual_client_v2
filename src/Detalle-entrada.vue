@@ -25,7 +25,7 @@
 
     <template v-else>
         <div style="float: left">
-            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="create">
+            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="validateNew">
                 <app-icon img="ok"></app-icon>
             </button>
             <button type="button" class="btn btn-default btn-sm" title="Descartar" @click="discardNew">
@@ -36,10 +36,10 @@
 
     <template v-if="!editing">
         <div style="float: right">
-            <button type="button" class="btn btn-default btn-sm" title="Editar" @click="edit" :disabled="addingNew">
+            <button type="button" class="btn btn-default btn-sm" title="Editar" @click="validateIdUpdate" :disabled="addingNew">
                 <app-icon img="edit"></app-icon>
             </button>
-            <button type="button" class="btn btn-default btn-sm" title="Eliminar" @click="remove" :disabled="addingNew">
+            <button type="button" class="btn btn-default btn-sm" title="Eliminar" @click="validateIdDelete" :disabled="addingNew">
                 <app-icon img="trash"></app-icon>
             </button>
         </div>
@@ -47,7 +47,7 @@
 
     <template v-else>
         <div style="float: right">
-            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="update()">
+            <button type="button" class="btn btn-default btn-sm" title="Confirmar" @click="validateUpdate">
                 <app-icon img="ok"></app-icon>
             </button>
             <button type="button" class="btn btn-default btn-sm" title="Descartar" @click="discard">
@@ -56,11 +56,12 @@
         </div>
     </template>
   </div>
+
   <div>
     <p style="visibility: hidden">separador</p>
   </div>
     <br>
-
+    <infomessage></infomessage>
   </div>
 </template>
 
@@ -68,15 +69,77 @@
 import EventBus from './event-bus.js'
 import AppIcon from './App-icon.vue'
 import appConfig from './config.js'
+import InfoMessage from './InfoMessage.vue'
 
 var httpURL = appConfig.URLEntrada;
 
 export default {
       components: {
-          'app-icon' : AppIcon
+          'app-icon' : AppIcon,
+          'infomessage' : InfoMessage
       },
 
       methods: {
+            validateNew: function() {
+              let mensaje ='';
+              if(!this.isNumeric(this.Entrada.Precio) || this.Entrada.Precio <= 0) {
+                mensaje = 'El Precio debe ser un número mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Sala) || this.Entrada.Sala <= 0) {
+                mensaje = 'La Sala debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Butaca) || this.Entrada.Butaca <= 0) {
+                mensaje = 'La Butaca debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Fila) || this.Entrada.Fila <= 0) {
+                mensaje = 'La Fila debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else {
+                this.create();
+              }
+            },
+            validateIdUpdate: function() {
+              let mensaje ='';
+              if(this.Entrada.Id =='' || this.Entrada.Id < 0) {
+                mensaje = 'Seleccione una entrada de la lista.';
+                EventBus.$emit('showMessage', mensaje);
+              } else {
+                this.edit();
+              }
+            },
+            validateIdDelete: function() {
+              let mensaje ='';
+              if(this.Entrada.Id =='' || this.Entrada.Id < 0) {
+                mensaje = 'Seleccione una entrada de la lista.';
+                EventBus.$emit('showMessage', mensaje);
+              } else {
+                this.remove();
+              }
+            },
+            validateUpdate: function() {
+              let mensaje ='';
+              if(!this.isNumeric(this.Entrada.Precio) || this.Entrada.Precio <= 0) {
+                mensaje = 'El Precio debe ser un número mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Sala) || this.Entrada.Sala <= 0) {
+                mensaje = 'La Sala debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Butaca) || this.Entrada.Butaca <= 0) {
+                mensaje = 'La Butaca debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else if(!this.isInt(this.Entrada.Fila) || this.Entrada.Fila <= 0) {
+                mensaje = 'La Fila debe ser un número entero mayor que 0.';
+                EventBus.$emit('showMessage', mensaje);
+              } else {
+                this.update();
+              }
+            },
+            isNumeric: function(n) {
+              return !isNaN(parseFloat(n)) && isFinite(n);
+            },
+            isInt: function(n) {
+              return n % 1 === 0;
+            },
             editNew: function () {
                 this.EntradaCopia.Precio = this.Entrada.Precio;
                 this.EntradaCopia.Sala = this.Entrada.Sala;
@@ -132,8 +195,9 @@ export default {
 
                     })
                     .done(function(data) {
-                      alert('Entrada añadida con éxito.');
                       EventBus.$emit('updateListEntrada');
+                      let mensaje ='Entrada añadida con éxito.';
+                      EventBus.$emit('showMessage', mensaje);
                     })
                     .fail(function(data) {
                             alert( "error" );
@@ -155,8 +219,9 @@ export default {
                     }
                   })
                   .done(function(data) {
-                    alert('Entrada actualizada con éxito.');
                     EventBus.$emit('updateListEntrada');
+                    let mensaje ='Entrada actualizada con éxito.';
+                    EventBus.$emit('showMessage', mensaje);
                     _this.cleanForm();
                   })
                   .fail(function(data) {
@@ -173,9 +238,10 @@ export default {
                       data: {Id: this.Entrada.Id}
                     })
                     .done(function(data) {
-                      alert('Entrada eliminada con éxito.');
                       EventBus.$emit('updateListEntrada');
                       _this.cleanForm();
+                      let mensaje ='Entrada eliminada con éxito.';
+                      EventBus.$emit('showMessage', mensaje);
                     })
                     .fail(function(data) {
                             alert( "error" );
@@ -222,6 +288,8 @@ export default {
       mounted: function() {
         EventBus.$on('entradaSelected', function(id) {
           this.load(id);
+          this.editing = false;
+          this.addingNew = false;
         }.bind(this));
       }
   }

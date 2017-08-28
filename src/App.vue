@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>{{ title }}</h2>
+    <h1><strong>{{ title }}</strong></h1>
     <maestro-entrada></maestro-entrada>
     <detalle-entrada></detalle-entrada>
   </div>

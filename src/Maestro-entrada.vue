@@ -1,7 +1,7 @@
 <template>
   <div style="display:inline-block; vertical-align:top">
         <ul class="w3-ul w3-card-4">
-          <li><h2> Entradas </h2></li>
+          <li><h2><strong>Entradas</strong></h2></li>
           <li class="w3-hover-blue" v-for="Entrada in Entradas" @click="entradaSelected(Entrada.Id)"> Precio: {{Entrada.Precio }}, Sala: {{ Entrada.Sala }} </li>
         </ul>
       </div>
