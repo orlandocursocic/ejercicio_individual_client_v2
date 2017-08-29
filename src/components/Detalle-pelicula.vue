@@ -198,11 +198,12 @@ export default {
                       EventBus.$emit('updateListPelicula');
                       let mensaje ='Película añadida con éxito.';
                       EventBus.$emit('showMessage', mensaje);
+                      _this.addingNew = false;
                     })
                     .fail(function(data) {
-                            alert( "error" );
+                      let mensaje = 'No se pudo crear la Película. Revise su conexión a Internet.';
+                      EventBus.$emit('showMessage', mensaje);
                           });
-                  this.addingNew = false;
               },
               update: function () {
                 var _this = this;
@@ -223,11 +224,12 @@ export default {
                     let mensaje ='Película actualizada con éxito.';
                     EventBus.$emit('showMessage', mensaje);
                     _this.cleanForm();
+                    _this.editing = false;
                   })
                   .fail(function(data) {
-                          alert( "error" );
+                    let mensaje = 'No se pudo actualizar la Película. Revise su conexión a Internet.';
+                    EventBus.$emit('showMessage', mensaje);
                         });
-                this.editing = false;
               },
               remove: function () {
                   var _this = this;
@@ -242,11 +244,12 @@ export default {
                       _this.cleanForm();
                       let mensaje ='Película eliminada con éxito.';
                       EventBus.$emit('showMessage', mensaje);
+                      _this.editing = false;
                     })
                     .fail(function(data) {
-                            alert( "error" );
+                      let mensaje = 'No se pudo eliminar la Película. Revise su conexión a Internet.';
+                      EventBus.$emit('showMessage', mensaje);
                           });
-                  this.editing = false;
               },
               load: function(id){
                 var _this = this;
@@ -259,7 +262,8 @@ export default {
                     _this.Pelicula = data;
                   })
                   .fail(function(data) {
-                          alert( "error" );
+                    let mensaje = 'No se pudo cargar la Película. Revise su conexión a Internet.';
+                    EventBus.$emit('showMessage', mensaje);
                         });
               },
             },

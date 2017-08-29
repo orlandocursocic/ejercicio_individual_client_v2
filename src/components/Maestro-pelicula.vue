@@ -32,7 +32,8 @@ export default {
                 _this.Peliculas = data;
               })
               .fail(function(data) {
-                      alert( "error" );
+                let mensaje = 'No se pudo cargar la lista. Revise su conexión a Internet.';
+                EventBus.$emit('showMessage', mensaje);
                 });
           },
 

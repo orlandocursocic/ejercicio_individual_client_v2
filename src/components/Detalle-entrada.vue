@@ -198,11 +198,12 @@ export default {
                       EventBus.$emit('updateListEntrada');
                       let mensaje ='Entrada añadida con éxito.';
                       EventBus.$emit('showMessage', mensaje);
+                      _this.addingNew = false;
                     })
                     .fail(function(data) {
-                            alert( "error" );
+                      let mensaje = 'No se pudo crear la Entrada. Revise su conexión a Internet.';
+                      EventBus.$emit('showMessage', mensaje);
                           });
-                  this.addingNew = false;
               },
               update: function () {
                 var _this = this;
@@ -223,11 +224,12 @@ export default {
                     let mensaje ='Entrada actualizada con éxito.';
                     EventBus.$emit('showMessage', mensaje);
                     _this.cleanForm();
+                    _this.editing = false;
                   })
                   .fail(function(data) {
-                          alert( "error" );
+                    let mensaje = 'No se pudo actualizar la Entrada. Revise su conexión a Internet.';
+                    EventBus.$emit('showMessage', mensaje);
                         });
-                this.editing = false;
               },
               remove: function () {
                   var _this = this;
@@ -244,7 +246,8 @@ export default {
                       EventBus.$emit('showMessage', mensaje);
                     })
                     .fail(function(data) {
-                            alert( "error" );
+                      let mensaje = 'No se pudo eliminar la Entrada. Revise su conexión a Internet.';
+                      EventBus.$emit('showMessage', mensaje);
                           });
                   this.editing = false;
               },
@@ -259,7 +262,8 @@ export default {
                     _this.Entrada = data;
                   })
                   .fail(function(data) {
-                          alert( "error" );
+                    let mensaje = 'No se pudo cargar la Entrada. Revise su conexión a Internet.';
+                    EventBus.$emit('showMessage', mensaje);
                         });
               },
             },
