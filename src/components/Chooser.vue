@@ -1,12 +1,12 @@
 <template>
-<div>
-  <button type="button" class="btn btn-default btn-sm" title="Entrada" @click="chooseOption(options.Entradas)">
+  <div>
+    <button type="button" class="btn btn-default btn-sm" title="Entrada" @click="chooseOption(options.Entradas)">
       <app-icon img="th-list"></app-icon> Entradas
-  </button>
-  <button type="button" class="btn btn-default btn-sm" title="Pelicula" @click="chooseOption(options.Peliculas)">
+    </button>
+    <button type="button" class="btn btn-default btn-sm" title="Pelicula" @click="chooseOption(options.Peliculas)">
       <app-icon img="th-list"></app-icon> Películas
-  </button>
-</div>
+    </button>
+  </div>
 </template>
 
 <script>
@@ -15,7 +15,7 @@ import AppIcon from './App-icon.vue'
 
 export default {
   components: {
-      'app-icon' : AppIcon
+    'app-icon' : AppIcon
   },
 
   data: function() {
@@ -27,9 +27,9 @@ export default {
     }
   },
   methods: {
-      chooseOption: function(opcion){
-        EventBus.$emit('chooseOption', opcion);
-      }
+    chooseOption: function(opcion){
+      EventBus.$emit('chooseOption', opcion);
+    }
   }
 }
 

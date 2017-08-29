@@ -4,11 +4,11 @@
 
 <script>
 export default {
-    props: ['img'],
-    computed: {
-        cssClasses: function () {
-            return 'glyphicon glyphicon-'+this.img;
-        }
+  props: ['img'],
+  computed: {
+    cssClasses: function () {
+      return 'glyphicon glyphicon-'+this.img;
     }
   }
-  </script>
+}
+</script>

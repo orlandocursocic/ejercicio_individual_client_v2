@@ -1,14 +1,9 @@
 <template>
-<div>
-  <!--
-  <button @click="show = !show">
-    Toggle render
-  </button>
--->
-  <transition name="slide-fade">
-    <p style="text: red" v-if="show"> {{mensaje}}</p>
-  </transition>
-</div>
+  <div class="w3-container w3-card-4" style="display:inline-block;">
+    <transition name="slide-fade">
+      <p style="text-align: center; vertical-align: middle; line-height: 30px" v-if="show"> {{mensaje}}</p>
+    </transition>
+  </div>
 </template>
 
 <script>
