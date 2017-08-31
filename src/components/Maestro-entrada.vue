@@ -1,8 +1,8 @@
 <template>
-  <div style="display:inline-block; vertical-align:top">
+  <div style="min-width:400px; max-width:400px; display:inline-block; vertical-align:top">
     <ul class="w3-ul w3-card-4">
       <li><h2><strong>Entradas</strong></h2></li>
-      <li class="w3-hover-blue" v-for="Entrada in Entradas" @click="entradaSelected(Entrada.Id)"> Precio: {{Entrada.Precio }}, Sala: {{ Entrada.Sala }} </li>
+      <li style="overflow: hidden; text-overflow: ellipsis" class="w3-hover-blue" v-for="Entrada in Entradas" @click="entradaSelected(Entrada.Id)"> Precio: {{Entrada.Precio }}, Sala: {{ Entrada.Sala }} </li>
     </ul>
   </div>
 </template>

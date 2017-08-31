@@ -1,5 +1,5 @@
 <template>
-  <div class="w3-container w3-card-4" style="display:inline-block; vertical-align:top">
+  <div class="w3-container w3-card-4" style="min-width:400px; max-width:400px; display:inline-block; vertical-align:top">
     <div>
       <h3><strong>Entrada, precio: </strong>{{Entrada.Precio}}</h3>
       <label class="w3-text" for="precio"> Precio </label>
