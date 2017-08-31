@@ -1,5 +1,5 @@
 <template>
-  <div class="w3-container w3-card-4" style="display:inline-block;">
+  <div class="w3-container w3-card-4" style="min-width:300px; max-width:300px; display:inline-block;">
     <transition name="slide-fade">
       <p style="text-align: center; vertical-align: middle; line-height: 30px" v-if="show"> {{mensaje}}</p>
     </transition>

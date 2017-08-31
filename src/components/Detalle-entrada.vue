@@ -1,7 +1,7 @@
 <template>
-  <div class="w3-container w3-card-4" style="min-width:400px; max-width:400px; display:inline-block; vertical-align:top">
+  <div class="w3-container w3-card-4" style="min-width:300px; max-width:300px; display:inline-block; vertical-align:top">
     <div>
-      <h3><strong>Entrada, precio: </strong>{{Entrada.Precio}}</h3>
+      <h3 style="overflow: hidden; text-overflow: ellipsis; max-width:300px"><strong>Entrada, precio: </strong>{{Entrada.Precio}}</h3>
       <label class="w3-text" for="precio"> Precio </label>
       <input class="w3-input w3-border" type="numeric" name="precio" value="Precio" :disabled="!editing && !addingNew" v-model="Entrada.Precio">
       <label class="w3-text" for="sala"> Sala </label>
