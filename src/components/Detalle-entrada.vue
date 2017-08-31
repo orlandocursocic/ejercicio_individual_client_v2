@@ -71,6 +71,7 @@ import appConfig from './config.js'
 import InfoMessage from './InfoMessage.vue'
 
 var httpURL = appConfig.URLEntrada;
+var maxInt =  2147483647;
 
 export default {
   components: {
@@ -92,6 +93,15 @@ export default {
         EventBus.$emit('showMessage', mensaje);
       } else if(!this.isInt(this.Entrada.Fila) || this.Entrada.Fila <= 0) {
         mensaje = 'La Fila debe ser un número entero mayor que 0.';
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Sala > maxInt) {
+        mensaje = 'La Sala debe ser un número menor que ' + maxInt;
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Butaca > maxInt) {
+        mensaje = 'La Butaca debe ser un número menor que ' + maxInt;
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Fila > maxInt) {
+        mensaje = 'La Fila debe ser un número menor que ' + maxInt;
         EventBus.$emit('showMessage', mensaje);
       } else {
         this.create();
@@ -128,6 +138,15 @@ export default {
         EventBus.$emit('showMessage', mensaje);
       } else if(!this.isInt(this.Entrada.Fila) || this.Entrada.Fila <= 0) {
         mensaje = 'La Fila debe ser un número entero mayor que 0.';
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Sala > maxInt) {
+        mensaje = 'La Sala debe ser un número menor que ' + maxInt;
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Butaca > maxInt) {
+        mensaje = 'La Butaca debe ser un número menor que ' + maxInt;
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Entrada.Fila > maxInt) {
+        mensaje = 'La Fila debe ser un número menor que ' + maxInt;
         EventBus.$emit('showMessage', mensaje);
       } else {
         this.update();

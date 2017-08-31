@@ -71,6 +71,7 @@ import appConfig from './config.js'
 import InfoMessage from './InfoMessage.vue'
 
 var httpURL = appConfig.URLPelicula;
+var maxInt =  2147483647;
 
 export default {
   components: {
@@ -92,6 +93,9 @@ export default {
         EventBus.$emit('showMessage', mensaje);
       } else if(this.isNumeric(this.Pelicula.Pais) || this.Pelicula.Pais == '') {
         mensaje = 'El país de la película no puede ser un número ni estar vacío';
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Pelicula.anyo > maxInt) {
+        mensaje = 'El año debe ser un número menor que ' + maxInt;
         EventBus.$emit('showMessage', mensaje);
       } else {
         this.create();
@@ -128,6 +132,9 @@ export default {
         EventBus.$emit('showMessage', mensaje);
       } else if(this.isNumeric(this.Pelicula.Pais) || this.Pelicula.Pais == '') {
         mensaje = 'El país de la película no puede ser un número ni estar vacío';
+        EventBus.$emit('showMessage', mensaje);
+      } else if(this.Pelicula.Anyo > maxInt) {
+        mensaje = 'El año debe ser un número menor que ' + maxInt;
         EventBus.$emit('showMessage', mensaje);
       } else {
         this.update();
